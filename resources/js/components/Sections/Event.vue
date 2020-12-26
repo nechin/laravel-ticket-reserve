@@ -2,6 +2,7 @@
     <div>
         <h4>Список мест события #{{ event_id }}</h4>
         <div>
+            <!-- Выбор класса по условию "place.y !== 570" осознанный "костыль" для тестового задания -->
             <div
                 v-if="!loading"
                 v-for="place in places"
@@ -25,8 +26,9 @@
             </div>
         </div>
 
+        <!-- Выбранные места просто выводим списком, а не отмечаем визуально. Так проще, хотя менее красиво -->
         <div v-if="selectedPlaces.length > 0">
-            Выбранные места: {{ selectedPlaces }}
+            Выбранные места: <b>{{ selectedPlaces }}</b>
             <div>
                 <button
                     v-on:click="reserve()"
@@ -72,6 +74,7 @@ export default {
     },
     computed: {
         selectedPlaces() {
+            // Удаляя дубликаты
             return this.place_ids.filter(function(item, pos, self) {
                 return self.indexOf(item) == pos;
             })
@@ -105,9 +108,9 @@ export default {
                     .then(response => {
                         this.reservation_id = response.data.reservation_id;
                     }).catch(error => {
-                    const errorText = error.response.data.message || error.message;
-                    alert(errorText);
-                }).finally(() => this.loading = false);
+                        const errorText = error.response.data.message || error.message;
+                        alert(errorText);
+                    });
             } else {
                 alert('Введите имя для резерва мест');
             }
@@ -122,6 +125,6 @@ export default {
     }
 
     .place-button {
-        padding: 5px 10px;
+        width: 49px;
     }
 </style>

@@ -2,6 +2,7 @@
 
 namespace App\Services\Gates\Providers;
 
+use App\Exceptions\CommonException;
 use App\Services\Gates\Contracts\Gate;
 
 class BaseGate extends Gate
@@ -57,8 +58,14 @@ class BaseGate extends Gate
         if ($response->ok()) {
             $decodedData = json_decode($response->body());
 
-            if ($decodedData && isset($decodedData->response)) {
-                return $decodedData->response;
+            if ($decodedData) {
+                if (isset($decodedData->response)) {
+                    return $decodedData->response;
+                } elseif (isset($decodedData->error)) {
+                    throw new CommonException($decodedData->error);
+                } else {
+                    throw new CommonException('Не удалось получить ответ от ' . $this->endpoint);
+                }
             }
         }
 
