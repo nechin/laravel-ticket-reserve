@@ -16,3 +16,11 @@ yarn-error.log
 /tests/
 /public/css/
 /public/js/
+.editorconfig
+.gitattributes
+.styleci.yml
+composer.phar
+docker-compose.yml
+webpack.mix.js
+/public/mix-manifest.json
+/resources/sass/
