@@ -15,7 +15,7 @@ class CommonException extends Exception
      */
     public function report()
     {
-        Log::error('Ошибка шлюза: [' . $this->getMessage() . '] Код ответа: [' . $this->getCode() . ']');
+        Log::error('Ошибка: [' . $this->getMessage() . '] Код ответа: [' . $this->getCode() . ']');
     }
 
     /**
