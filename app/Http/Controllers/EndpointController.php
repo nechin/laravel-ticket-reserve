@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\Action;
 use App\Http\Resources\Event;
+use App\Http\Resources\Place;
 use App\Services\RequestDataService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -36,7 +37,7 @@ class EndpointController extends Controller
         $data = (new RequestDataService())->getPlaces($eventId);
         $this->checkEmptyValue($data, 'Мест не найдено');
 
-        return response()->json($data);
+        return Place::collection($data);
     }
 
     public function reserve(int $eventId, Request $request)

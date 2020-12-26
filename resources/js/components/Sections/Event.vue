@@ -2,11 +2,11 @@
     <div>
         <h4>Список мест события #{{ event_id }}</h4>
         <div>
-            <!-- Выбор класса по условию "place.y !== 570" осознанный "костыль" для тестового задания -->
+            <!-- Выбор класса по условию "place.position !== 570" осознанный "костыль" для тестового задания -->
             <div
                 v-if="!loading"
                 v-for="place in places"
-                :class="{ flexItem: place.y !== 570 }"
+                :class="{ flexItem: place.position !== 570 }"
                 style="padding: 3px"
             >
                 <button
@@ -86,7 +86,7 @@ export default {
             axios
                 .get('/api/places/' + this.event_id)
                 .then(response => {
-                    this.places = response.data;
+                    this.places = response.data.data;
                 }).catch(error => {
                     const errorText = error.response.data.message || error.message;
                     alert(errorText);

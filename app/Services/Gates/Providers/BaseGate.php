@@ -62,9 +62,9 @@ class BaseGate extends Gate
                 if (isset($decodedData->response)) {
                     return $decodedData->response;
                 } elseif (isset($decodedData->error)) {
-                    throw new CommonException($decodedData->error);
+                    throw new CommonException('Сообщение: ' . $decodedData->error, 422);
                 } else {
-                    throw new CommonException('Не удалось получить ответ от ' . $this->endpoint);
+                    throw new CommonException('Не удалось получить ответ от ' . $this->endpoint, 400);
                 }
             }
         }

@@ -3,6 +3,7 @@
 namespace App\Exceptions;
 
 use Exception;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Log;
 
 class CommonException extends Exception
@@ -15,5 +16,15 @@ class CommonException extends Exception
     public function report()
     {
         Log::error('Ошибка шлюза: [' . $this->getMessage() . '] Код ответа: [' . $this->getCode() . ']');
+    }
+
+    /**
+     * Render the exception into an HTTP response.
+     *
+     * @return JsonResponse
+     */
+    public function render()
+    {
+        return response()->json(['message' => $this->getMessage()], $this->getCode());
     }
 }
