@@ -52,10 +52,10 @@ class EndpointController extends Controller
         $name = $request->get('name');
         $places = $request->get('places');
 
-        $data = (new RequestDataService())->reservePlace($eventId, $name, $places);
-        $this->checkEmptyValue($data, 'Не удалось зарезервировать места');
+        $reserveId = (new RequestDataService())->reservePlace($eventId, $name, $places);
+        $this->checkEmptyValue($reserveId, 'Не удалось зарезервировать места');
 
-        return response()->json($data);
+        return response()->json(['reserve_id' => $reserveId]);
     }
 
     private function checkEmptyValue($value, string $message): void

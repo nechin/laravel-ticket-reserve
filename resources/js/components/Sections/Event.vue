@@ -106,7 +106,7 @@ export default {
                         }
                     )
                     .then(response => {
-                        this.reservation_id = response.data.reservation_id;
+                        this.reservation_id = response.data.reserve_id;
                     }).catch(error => {
                         const errorText = error.response.data.message || error.message;
                         alert(errorText);

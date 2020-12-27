@@ -50,7 +50,7 @@ class BaseGate extends Gate
             ]
         );
 
-        return $this->getResponseData($response);
+        return $this->getResponseData($response)->reservation_id ?? null;
     }
 
     private function getResponseData($response)
