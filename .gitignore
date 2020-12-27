@@ -12,8 +12,6 @@ Homestead.json
 Homestead.yaml
 npm-debug.log
 yarn-error.log
-/storage/
-/tests/
 /public/css/
 /public/js/
 .editorconfig
@@ -23,4 +21,3 @@ composer.phar
 docker-compose.yml
 webpack.mix.js
 /public/mix-manifest.json
-/resources/sass/
