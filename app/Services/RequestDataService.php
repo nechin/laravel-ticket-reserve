@@ -3,9 +3,15 @@
 namespace App\Services;
 
 use App\Services\Gates\Contracts\Gate;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Support\Collection;
 
 class RequestDataService
 {
+    /**
+     * Gate provider instance
+     * @var Gate|Application|mixed
+     */
     private Gate $gateProvider;
 
     /**
@@ -16,6 +22,10 @@ class RequestDataService
         $this->gateProvider = app(Gate::class);
     }
 
+    /**
+     * Get actions
+     * @return array|Collection
+     */
     public function getActions()
     {
         $actions = $this->gateProvider->getActions();
@@ -23,6 +33,11 @@ class RequestDataService
         return $actions ?: [];
     }
 
+    /**
+     * Get events for action
+     * @param int $actionId
+     * @return array|Collection
+     */
     public function getEvents(int $actionId)
     {
         $events = $this->gateProvider->getEvents($actionId);
@@ -30,6 +45,11 @@ class RequestDataService
         return $events ?: [];
     }
 
+    /**
+     * Get places for event
+     * @param int $eventId
+     * @return array|Collection
+     */
     public function getPlaces(int $eventId)
     {
         $events = $this->gateProvider->getPlaces($eventId);
@@ -37,9 +57,16 @@ class RequestDataService
         return $events ?: [];
     }
 
+    /**
+     * Reserve a places on user name for the event
+     * @param int $eventId
+     * @param string $name
+     * @param array $places
+     * @return Collection|null
+     */
     public function reservePlace(int $eventId, string $name, array $places)
     {
-        $reserveId = $this->gateProvider->reservePlace($eventId, $name, $places);
+        $reserveId = $this->gateProvider->reservePlaces($eventId, $name, $places);
 
         return $reserveId ?: null;
     }

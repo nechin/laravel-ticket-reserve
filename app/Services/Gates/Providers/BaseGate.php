@@ -7,43 +7,66 @@ use App\Services\Gates\Contracts\Gate;
 
 class BaseGate extends Gate
 {
-    private string $endpoint = 'https://leadbook.ru/test-task-api/';
-
+    /**
+     * Get actions from response
+     * @return mixed|null
+     * @throws CommonException
+     */
     public function getActions()
     {
         $response = $this->makeRequest(
             'get',
-            $this->endpoint . 'shows'
+            $this->apiEndpoint . 'shows'
         );
 
         return $this->getResponseData($response);
     }
 
+    /**
+     * Get events from response
+     * @param int $actionId
+     * @return mixed|null
+     * @throws CommonException
+     */
     public function getEvents(int $actionId)
     {
         $response = $this->makeRequest(
             'get',
-            $this->endpoint . 'shows/' . $actionId . '/events'
+            $this->apiEndpoint . 'shows/' . $actionId . '/events'
         );
 
         return $this->getResponseData($response);
     }
 
+    /**
+     * Get places from response
+     * @param int $eventId
+     * @return mixed|null
+     * @throws CommonException
+     */
     public function getPlaces(int $eventId)
     {
         $response = $this->makeRequest(
             'get',
-            $this->endpoint . 'events/' . $eventId . '/places'
+            $this->apiEndpoint . 'events/' . $eventId . '/places'
         );
 
         return $this->getResponseData($response);
     }
 
-    public function reservePlace(int $eventId, string $name, array $places)
+    /**
+     * Reserve places
+     * @param int $eventId
+     * @param string $name
+     * @param array $places
+     * @return mixed|null
+     * @throws CommonException
+     */
+    public function reservePlaces(int $eventId, string $name, array $places): ?string
     {
         $response = $this->makeRequest(
             'post',
-            $this->endpoint . 'events/' . $eventId . '/reserve',
+            $this->apiEndpoint . 'events/' . $eventId . '/reserve',
             [
                 'name' => $name,
                 'places' => $places,
@@ -53,6 +76,12 @@ class BaseGate extends Gate
         return $this->getResponseData($response)->reservation_id ?? null;
     }
 
+    /**
+     * Get response and handle result
+     * @param $response
+     * @return mixed|null
+     * @throws CommonException
+     */
     private function getResponseData($response)
     {
         if ($response->ok()) {
@@ -64,7 +93,7 @@ class BaseGate extends Gate
                 } elseif (isset($decodedData->error)) {
                     throw new CommonException('Ошибка: ' . $decodedData->error, 422);
                 } else {
-                    throw new CommonException('Не удалось получить ответ от ' . $this->endpoint, 400);
+                    throw new CommonException('Не удалось получить ответ от ' . $this->apiEndpoint, 400);
                 }
             }
         }
