@@ -1,5 +1,5 @@
-# laravel_ticket_test
-Laravel ticket handler test task
+# Laravel ticket reserve handler
+Laravel ticket handler task with reservation
 
 # Versions
 `Laravel Framework 8.12`
